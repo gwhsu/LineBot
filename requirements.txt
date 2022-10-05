@@ -5,4 +5,4 @@ numpy
 pymongo~=3.9.0
 pymongo[srv]
 dnspython
-pandas~=0.24.2
+pandas
