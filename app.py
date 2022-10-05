@@ -54,6 +54,7 @@ def callback():
 def handle_message(event):
     global game_start, key, low, high, talk_mode
     msg = event.message.text
+    '''
     user_id = event.source.user_id
     print('get user id::', user_id)
     profile = line_bot_api.get_profile(user_id)
@@ -64,10 +65,9 @@ def handle_message(event):
     print(profile.picture_url)
     print(profile.status_message)
     print('join')
-    message = set_msg(msg)
-    line_bot_api.reply_message(event.reply_token, message)
+    '''
     if 'Hello' in msg:
-        message = 'Hello' + profile.display_name
+        message = 'Hello'
         line_bot_api.reply_message(event.reply_token, message)
 
     elif '占卜一個人 @' in msg:
