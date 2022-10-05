@@ -1,0 +1,8 @@
+line-bot-sdk
+flask
+pillow~=6.2.0
+numpy~=1.16.2
+pymongo~=3.9.0
+pymongo[srv]
+dnspython
+pandas~=0.24.2
