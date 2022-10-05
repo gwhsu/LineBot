@@ -9,10 +9,10 @@ dnspython
 pandas
 times
 click~=7.0
-lxml~=4.3.2
-pyquery~=1.4.1
+lxml
+pyquery
 requests
-bs4~=0.0.1
+bs4
 beautifulsoup4
 requests-html
 selenium
