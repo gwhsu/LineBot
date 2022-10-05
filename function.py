@@ -21,8 +21,6 @@ def set_msg(msg):
     if 'CC' in msg:
         msg = '你在笑什麼'
         message = TextSendMessage(text=msg)
-    else:
-        message = TextSendMessage(text=msg)
 
     return message
 
