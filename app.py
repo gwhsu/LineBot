@@ -1,16 +1,5 @@
 from flask import Flask, request, abort
 
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import *
-
-from linebot.models import *
-
-
 from config import client_id, client_secret, album_id, access_token, refresh_token, client_mongo, line_channel_access_token, line_channel_secret
 
 # ======這裡是呼叫的檔案內容=====
@@ -54,7 +43,7 @@ def callback():
 def handle_message(event):
     global game_start, key, low, high, talk_mode
     msg = event.message.text
-    '''
+
     user_id = event.source.user_id
     print('get user id::', user_id)
     profile = line_bot_api.get_profile(user_id)
@@ -65,9 +54,9 @@ def handle_message(event):
     print(profile.picture_url)
     print(profile.status_message)
     print('join')
-    '''
+
     if 'Hello' in msg:
-        message = 'Hello'
+        message = 'Hello' + profile.display_name
         line_bot_api.reply_message(event.reply_token, message)
 
     elif '占卜一個人 @' in msg:
@@ -110,7 +99,7 @@ def handle_image(event):
             preview_image_url=url
         )
         '''
-        line_bot_api.reply_message(event.reply_token, image_message)
+        # line_bot_api.reply_message(event.reply_token, image_message)
         # line_bot_api.reply_message(event.reply_token, message)
 
         return 0
@@ -138,5 +127,5 @@ def handle_leave(event):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+
+    app.run()
