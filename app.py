@@ -63,15 +63,9 @@ def handle_message(event):
     print(profile.user_id)
     print(profile.picture_url)
     print(profile.status_message)
-    tlk = str(talk_mode)
-    # msg = TextSendMessage(text=tlk)
-    # line_bot_api.reply_message(event.reply_token, msg)
-    # ------------------------------------
-
-    # -------------------------------------
-    # talk_mode = -1
     print('join')
-    print('join leave')
+    message = set_msg(msg)
+    line_bot_api.reply_message(event.reply_token, message)
     if 'Hello' in msg:
         message = 'Hello' + profile.display_name
         line_bot_api.reply_message(event.reply_token, message)
