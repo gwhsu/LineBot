@@ -63,7 +63,7 @@ def handle_message(event):
     print('join')
 
     if 'Hello' in msg:
-        message = 'Hello' +str(profile.display_name)
+        message = 'Hello' + str(profile.display_name)
         line_bot_api.reply_message(event.reply_token, message)
 
     elif '!op' in msg:
