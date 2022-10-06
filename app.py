@@ -63,39 +63,28 @@ def handle_message(event):
     print('join')
 
     if 'Hello' in msg:
-        message = 'Hello' + str(profile.display_name)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        message = 'Hello ' + str(profile.display_name)
 
     elif '!op' in msg:
         message = procast(msg)
-        line_bot_api.reply_message(event.reply_token, message)
 
     elif '占卜 @' in msg:
         message = procast(msg)
-        line_bot_api.reply_message(event.reply_token, message)
 
     elif '抽卡' in msg:
         url, rd_img, title = get_pttinfo()
         message = ptt_drawcard(url, rd_img, title)
-        line_bot_api.reply_message(event.reply_token, message)
 
     elif '!Hulan' in msg:
         message = Hulan(msg)
-        line_bot_api.reply_message(event.reply_token, message)
-
-    elif 'Start......' in msg:
-        message = TextSendMessage(text='game_start')
-        line_bot_api.reply_message(event.reply_token, message)
-        key = random.randint(low, high)
-        game_start = 1
 
     elif '貼圖' in msg:
         message = StickerSendMessage(package_id='1', sticker_id='2')
-        line_bot_api.reply_message(event.reply_token, message)
 
     else:
         message = set_msg(msg)
-        line_bot_api.reply_message(event.reply_token, message)
+
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
 
 @handler.add(JoinEvent)
