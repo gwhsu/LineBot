@@ -58,15 +58,16 @@ def ptt_drawcard(url, rd_img, title):
 
 
 def procast(msg):
-
+    print('1')
     db = mongo_client.get_database('linebot')
+    print('2')
     records = db.personality
-
+    print('3')
     df = pd.read_csv("personality1.csv")
     rd = random.randint(0, 73)
     name = msg.split('@')[1]
     score = rd + 26
-
+    print('4')
     myquery = {"Name": name}
     count_p = records.count_documents(myquery)
     if count_p == 0:
@@ -80,11 +81,13 @@ def procast(msg):
         records.insert_one(new_msg)
 
         message = TextSendMessage(text=txt)
+        print('5')
         return message
 
     else:
         for x in records.find(myquery):
             message = TextSendMessage(text=x['txt'])
+        print('6')
         return message
 
 
