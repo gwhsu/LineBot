@@ -21,6 +21,9 @@ def set_msg(msg):
     if 'CC' in msg:
         msg = '你在笑什麼'
         message = TextSendMessage(text=msg)
+    else:
+        msg = '你在笑什麼'
+        message = TextSendMessage(text=msg)
 
     return message
 
@@ -65,7 +68,7 @@ def procast(msg):
         new_msg = {
             'Name': name,
             'score': score,
-            'txt':txt
+            'txt': txt
         }
         records.insert_one(new_msg)
 

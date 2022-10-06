@@ -56,15 +56,19 @@ def handle_message(event):
     print('join')
 
     if 'Hello' in msg:
-        message = 'Hello' + profile.display_name
+        message = 'Hello' +str(profile.display_name)
         line_bot_api.reply_message(event.reply_token, message)
 
-    elif '占卜一個人 @' in msg:
+    elif '!op' in msg:
+        message = procast(msg)
+        line_bot_api.reply_message(event.reply_token, message)
+
+    elif '占卜 @' in msg:
         message = procast(msg)
         line_bot_api.reply_message(event.reply_token, message)
 
     elif 'Start......' in msg:
-        message = TextSendMessage(text='game_start: 輸入1~100的數字')
+        message = TextSendMessage(text='game_start')
         line_bot_api.reply_message(event.reply_token, message)
         key = random.randint(low, high)
         game_start = 1
