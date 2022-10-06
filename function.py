@@ -65,7 +65,7 @@ def procast(msg):
     score = rd + 26
     myquery = {"Name": name}
     count_p = records.count_documents(myquery)
-    if count_p == 0:
+    if count_p > 0:
         txt = '🔥 ' + name + '的人品分數: '+ str(score)+' 🔥\n'
         txt = txt + str(df.iloc[rd, 0])
         new_msg = {
