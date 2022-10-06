@@ -67,6 +67,15 @@ def handle_message(event):
         message = procast(msg)
         line_bot_api.reply_message(event.reply_token, message)
 
+    elif '抽卡' in msg:
+        url, rd_img, title = get_pttinfo()
+        message = ptt_drawcard(url, rd_img, title)
+        line_bot_api.reply_message(event.reply_token, message)
+
+    elif '!Hulan' in msg:
+        message = Hulan(msg)
+        line_bot_api.reply_message(event.reply_token, message)
+
     elif 'Start......' in msg:
         message = TextSendMessage(text='game_start')
         line_bot_api.reply_message(event.reply_token, message)
