@@ -1,6 +1,13 @@
 from flask import Flask, request, abort
 
 from config import client_id, client_secret, album_id, access_token, refresh_token, client_mongo, line_channel_access_token, line_channel_secret
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+from linebot.exceptions import (
+    InvalidSignatureError
+)
+from linebot.models import *
 
 # ======這裡是呼叫的檔案內容=====
 from function import *
