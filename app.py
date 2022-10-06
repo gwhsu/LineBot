@@ -64,7 +64,7 @@ def handle_message(event):
 
     if 'Hello' in msg:
         message = 'Hello ' + str(profile.display_name)
-
+        message = TextSendMessage(text=message)
     elif '!op' in msg:
         message = procast(msg)
 
@@ -84,7 +84,7 @@ def handle_message(event):
     else:
         message = set_msg(msg)
 
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+    line_bot_api.reply_message(event.reply_token, message)
 
 
 @handler.add(JoinEvent)

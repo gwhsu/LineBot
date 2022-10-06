@@ -21,7 +21,7 @@ def set_msg(msg):
         msg = '你在笑什麼'
         message = TextSendMessage(text=msg)
 
-    return
+    return message
 
 
 def get_pttinfo():
