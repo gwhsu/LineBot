@@ -78,7 +78,7 @@ def handle_message(event):
     elif '!Hulan' in msg:
         message = Hulan(msg)
 
-    elif '貼圖' in msg:
+    elif '幹你娘' in msg:
         message = StickerSendMessage(package_id='1', sticker_id='2')
 
     else:
