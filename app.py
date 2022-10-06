@@ -98,33 +98,6 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
 
 
-# 處理貼圖
-'''
-@handler.add(MessageEvent, message=StickerMessage)
-def handle_sticker(event):
-    if control_game != 0:
-        if game_start == 0:
-            message = game(event)
-            line_bot_api.reply_message(event.reply_token, message)
-'''
-
-# 處理圖片
-@handler.add(MessageEvent, message=ImageMessage)
-def handle_image(event):
-    if isinstance(event.message, ImageMessage):
-        '''
-        url = images[index].link
-        image_message = ImageSendMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        '''
-        # line_bot_api.reply_message(event.reply_token, image_message)
-        # line_bot_api.reply_message(event.reply_token, message)
-
-        return 0
-
-
 @handler.add(JoinEvent)
 def handle_join(event):
     newcoming_text = "開始報告"
