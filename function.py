@@ -67,6 +67,7 @@ def procast(msg):
     rd = random.randint(0, 73)
     name = msg.split('@')[1]
     score = rd + 26
+    print(name, score)
     print('4')
     myquery = {"Name": name}
     count_p = records.count_documents(myquery)
