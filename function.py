@@ -114,5 +114,4 @@ def Hulan(msg):
     print(chrome.page_source)
     message = TextSendMessage(text=content.text)
 
-
     return message
