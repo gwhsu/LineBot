@@ -85,7 +85,7 @@ def procast(msg):
 
 
 def Hulan(msg):
-    print('Start REQUESTTTTTTTTTTTTT')
+    print('Start REQUEST')
     msg_ = msg.split(' ')
     id_ = msg_[1]
     len_ = msg_[2]
@@ -100,16 +100,16 @@ def Hulan(msg):
     # chrome = webdriver.Chrome()
     chrome.get("https://howtobullshit.me/")
 
-    topic = chrome.find_element_by_id("topic")
-    minlen = chrome.find_element_by_id("minlen")
+    topic = chrome.find_element("topic")
+    minlen = chrome.find_element("minlen")
 
     topic.send_keys(id_)
     minlen.send_keys(len_)
 
-    chrome.find_element_by_id("btn-get-bullshit").click()
+    chrome.find_element("btn-get-bullshit").click()
     time.sleep(3)
 
-    content = chrome.find_element_by_id("content")
+    content = chrome.find_element("content")
 
     print(chrome.page_source)
     message = TextSendMessage(text=content.text)
