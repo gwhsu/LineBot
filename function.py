@@ -100,8 +100,8 @@ def Hulan(msg):
     # chrome = webdriver.Chrome()
     chrome.get("https://howtobullshit.me/")
 
-    topic = chrome.find_element("topic")
-    minlen = chrome.find_element("minlen")
+    topic = chrome.find_element("nane", "topic")
+    minlen = chrome.find_element("nane", "minlen")
 
     topic.send_keys(id_)
     minlen.send_keys(len_)
