@@ -59,7 +59,7 @@ def procast(msg):
 
     db = mongo_client.get_database('linebot')
     records = db.personality
-    df = pd.read_csv("personality1.csv")
+    df = pd.read_csv("data/personality1.csv")
     rd = random.randint(0, 73)
     name = msg.split('@')[1]
     score = rd + 26
@@ -111,7 +111,6 @@ def Hulan(msg):
 
     content = chrome.find_element_by_id("content")
 
-    print(chrome.page_source)
     message = TextSendMessage(text=content.text)
 
     return message

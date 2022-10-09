@@ -61,13 +61,19 @@ def handle_message(event):
     print(profile.picture_url)
     print(profile.status_message)
     print('join')
-
+    # need build a operation list (json)
     if 'Hello' in msg:
         message = 'Hello ' + str(profile.display_name)
         message = TextSendMessage(text=message)
     elif '!op' in msg:
-        message = procast(msg)
+        txt = '🔥 ' + 'Hello' + ' 🔥\n'
+        txt += '🔥 ' + '抽卡' + ' 🔥\n'
+        txt += '🔥 ' + '幹你娘' + ' 🔥\n'
+        txt += '🔥 ' + 'CC' + ' 🔥\n'
+        txt += '🔥 ' + '占卜 @[str]' + ' 🔥\n'
+        txt += '🔥 ' + '!Hulan [str] [int]' + ' 🔥\n'
 
+        message = TextSendMessage(text=txt)
     elif '占卜 @' in msg:
         message = procast(msg)
 
