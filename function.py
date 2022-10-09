@@ -100,16 +100,16 @@ def Hulan(msg):
     # chrome = webdriver.Chrome()
     chrome.get("https://howtobullshit.me/")
 
-    topic = chrome.find_element_by_name("topic")
-    minlen = chrome.find_element_by_name("minlen")
+    topic = chrome.find_element_by_id("topic")
+    minlen = chrome.find_element_by_id("minlen")
 
     topic.send_keys(id_)
     minlen.send_keys(len_)
 
-    chrome.find_element("btn-get-bullshit").click()
+    chrome.find_element_by_id("btn-get-bullshit").click()
     time.sleep(3)
 
-    content = chrome.find_element("content")
+    content = chrome.find_element_by_id("content")
 
     print(chrome.page_source)
     message = TextSendMessage(text=content.text)
