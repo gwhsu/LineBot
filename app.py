@@ -85,7 +85,7 @@ def handle_message(event):
         message = Hulan(msg)
 
     elif '幹你娘' in msg:
-        message = StickerSendMessage(package_id='1', sticker_id='2')
+        message = StickerSendMessage(package_id='1', sticker_id='3')
 
     else:
         message = set_msg(msg)
