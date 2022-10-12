@@ -116,7 +116,11 @@ def Hulan(msg):
     return message
 
 
-def img2anime(img_path) :
+def img2anime(img_path):
+    static_tmp_path = os.path.join(os.path.dirname(__file__))
+    print(static_tmp_path)
+    img_path = static_tmp_path + img_path
+    print(img_path)
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--headless")  # 無頭模式
@@ -127,8 +131,7 @@ def img2anime(img_path) :
 
     chrome.get("https://animefilter.com/")
 
-    post_image = chrome.find_element_by_xpath('//input[@type="file"]').send_keys(
-        img_path)
+    post_image = chrome.find_element_by_xpath('//input[@type="file"]').send_keys(img_path)
     alert = chrome.switch_to.alert
     alert.accept()  # accept alert
     time.sleep(30)
