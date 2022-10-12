@@ -101,9 +101,6 @@ def handle_message(event):
 def handle_message(event):
     if isinstance(event.message, ImageMessage):
         print('Start:..........')
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='wait 30s...... '))
         ext = 'jpg'
         message_content = line_bot_api.get_message_content(event.message.id)
         with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:

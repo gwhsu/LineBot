@@ -8,6 +8,7 @@ import os
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import requests
 
 from config import client_id, client_secret, access_token, refresh_token, album_id
 mongo_client = MongoClient('mongodb+srv://test:123@cluster0-lefn4.mongodb.net/test?retryWrites=true&w=majority')
@@ -126,8 +127,6 @@ def img2anime(img_path):
     chrome_options.add_argument("--headless")  # 無頭模式
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument("--start-maximized")
     chrome = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
 
@@ -137,18 +136,27 @@ def img2anime(img_path):
     alert = chrome.switch_to.alert
     alert.accept()  # accept alert
     time.sleep(30)
+    image = chrome.find_element_by_xpath('//*[@id="outputEl"]/div/div/img')
+    images_url = image.get_attribute("src")
 
+    # write image to file
+    reponse = requests.get(images_url)
+    if reponse.status_code == 200:
+        with open("output.jpg", "wb") as file:
+            file.write(reponse.content)
+
+    '''
     with open('output.png', 'wb') as file:
         image = chrome.find_element_by_xpath('//*[@id="outputEl"]/div/div/img')
         file.write(image.screenshot_as_png)
-
+    '''
 
     client = ImgurClient(client_id, client_secret, access_token, refresh_token)
     config = {
         'album': album_id,
         'name': 'Catastrophe!',
         'title': 'Catastrophe!',
-        'description': 'Cute kitten being cute on '
+        'description': 'Catastrophe '
     }
     client.upload_from_path('output.png', config=config, anon=False)
 
