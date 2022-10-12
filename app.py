@@ -116,19 +116,16 @@ def handle_message(event):
         try:
 
             path = os.path.join('static', 'tmp', dist_name)
-            message = img2anime(path)
+            img_uri = img2anime(path)
 
-            print('Message::', message)
+            print('Message::', img_uri)
+            message = ImageSendMessage(original_content_url=img_uri, preview_image_url=img_uri)
             line_bot_api.reply_message(event.reply_token, message)
         except():
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text='上傳失敗'))
-        return 0
-        # send photo
-        photo = event.message.image
-        message = md_photo(photo)
-        line_bot_api.reply_message(event.reply_token, message)
+
 
 
 @handler.add(JoinEvent)
