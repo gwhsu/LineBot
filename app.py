@@ -88,9 +88,9 @@ def handle_message(event):
         message = StickerSendMessage(package_id='1', sticker_id='7')
 
     elif '才修' in msg:
-        txt = '為什麼不接電話?'
+        txt = '才修為什麼不接電話?'
         message = TextSendMessage(text=txt)
-        
+
     else:
         message = set_msg(msg)
 
