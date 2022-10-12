@@ -119,7 +119,7 @@ def Hulan(msg):
 def img2anime(img_path):
     static_tmp_path = os.path.join(os.path.dirname(__file__))
     print(static_tmp_path)
-    img_path = static_tmp_path + img_path
+    img_path = static_tmp_path + '/' + img_path
     print(img_path)
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
