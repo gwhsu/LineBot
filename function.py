@@ -6,11 +6,11 @@ import pandas as pd
 from selenium import webdriver
 import os
 import time
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
-
-from config import client_id, client_secret, access_token, refresh_token
+from config import client_id, client_secret, access_token, refresh_token, album_id
 mongo_client = MongoClient('mongodb+srv://test:123@cluster0-lefn4.mongodb.net/test?retryWrites=true&w=majority')
-client = ImgurClient(client_id, client_secret, access_token, refresh_token)
 
 
 def set_msg(msg):
@@ -114,3 +114,41 @@ def Hulan(msg):
     message = TextSendMessage(text=content.text)
 
     return message
+
+
+def img2anime(img_path) :
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")  # 無頭模式
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
+
+    chrome.get("https://animefilter.com/")
+
+    post_image = chrome.find_element_by_xpath('//input[@type="file"]').send_keys(
+        img_path)
+    alert = chrome.switch_to.alert
+    alert.accept()  # accept alert
+    time.sleep(30)
+
+    with open('output.png', 'wb') as file:
+        image = chrome.find_element_by_xpath('//*[@id="outputEl"]/div/div/img')
+        file.write(image.screenshot_as_png)
+
+
+    client = ImgurClient(client_id, client_secret, access_token, refresh_token)
+    config = {
+        'album': album_id,
+        'name': 'Catastrophe!',
+        'title': 'Catastrophe!',
+        'description': 'Cute kitten being cute on '
+    }
+    client.upload_from_path('output.png', config=config, anon=False)
+
+    for image in client.get_album_images(album_id):
+        image_title = image.title if image.title else 'Untitled'
+    print(image.link)
+
+    return image.link

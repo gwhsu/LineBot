@@ -1,7 +1,7 @@
 # imgur key
 client_id = '997ba693cc27b9f'
 client_secret = '3475bbbd42b784a9cccd90a6cc8d3fdf0de935ac'
-album_id = '47HtB0Z'
+album_id = 'W6otvgi'
 access_token = '4b7bb0089203838f6fd1292f03a1e3187bbe7776'
 refresh_token = 'fb20c55a1821b036094fd5a042b9b7446ee52471'
 

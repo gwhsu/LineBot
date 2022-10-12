@@ -9,14 +9,14 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
-# ======這裡是呼叫的檔案內容=====
+import tempfile
 from function import *
 import os
-# ======這裡是呼叫的檔案內容=====
+# ======setting=====
 game_start = 0
 low = 1
 high = 100
-talk_mode = -1  # -1:非初始 0:初始 1:安靜 2:講話
+talk_mode = -1  # -1:非初始 0:初始 1:安靜 2:講話  # no use now
 control_img = 0
 control_game = 0
 control_msg = 0
@@ -95,6 +95,40 @@ def handle_message(event):
         message = set_msg(msg)
 
     line_bot_api.reply_message(event.reply_token, message)
+
+
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_message(event):
+    if isinstance(event.message, ImageMessage):
+        print('Start:..........')
+        ext = 'jpg'
+        message_content = line_bot_api.get_message_content(event.message.id)
+        with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
+            for chunk in message_content.iter_content():
+                tf.write(chunk)
+            tempfile_path = tf.name
+
+        dist_path = tempfile_path + '.' + ext
+        dist_name = os.path.basename(dist_path)
+
+        os.rename(tempfile_path, dist_path)
+
+        try:
+
+            path = os.path.join('static', 'tmp', dist_name)
+            message = img2anime(path)
+
+            print('Message::', message)
+            line_bot_api.reply_message(event.reply_token, message)
+        except():
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text='上傳失敗'))
+        return 0
+        # send photo
+        photo = event.message.image
+        message = md_photo(photo)
+        line_bot_api.reply_message(event.reply_token, message)
 
 
 @handler.add(JoinEvent)
