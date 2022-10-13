@@ -110,7 +110,7 @@ def handle_message(event):
         print('Start:..........')
         ext = 'jpg'
         message_content = line_bot_api.get_message_content(event.message.id)
-        with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-') as tf:
+        with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
             for chunk in message_content.iter_content():
                 tf.write(chunk)
             tempfile_path = tf.name
