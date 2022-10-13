@@ -1,3 +1,5 @@
+from pickle import APPENDS
+from re import S
 from flask import Flask, request, abort
 
 from config import client_id, client_secret, album_id, access_token, refresh_token, client_mongo, line_channel_access_token, line_channel_secret
@@ -21,6 +23,7 @@ talk_mode = -1  # -1:非初始 0:初始 1:安靜 2:講話  # no use now
 control_img = 0
 control_game = 0
 control_msg = 0
+switch = False
 
 # -----------------------------
 app = Flask(__name__)
@@ -76,6 +79,7 @@ def handle_message(event):
         txt += '🔥 ' + '幹你娘' + ' 🔥\n'
         txt += '🔥 ' + 'CC' + ' 🔥\n'
         txt += '🔥 ' + '占卜 @[str]' + ' 🔥\n'
+        txt += '🔥 ' + '才修' + ' 🔥\n'
         txt += '🔥 ' + '!Hulan [str] [int]' + ' 🔥\n'
 
         message = TextSendMessage(text=txt)
@@ -98,6 +102,16 @@ def handle_message(event):
         txt += '我的心好像破了一個洞 :('
         message = TextSendMessage(text=txt)
 
+    elif '!Switch' in msg:
+        if(switch):
+            switch = False
+            txt = '陽痿 :('
+        else:
+            switch = True
+            txt = '勃起 :)'
+
+        message = TextSendMessage(text=txt)
+
     else:
         message = set_msg(msg)
 
@@ -106,7 +120,7 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
-    if isinstance(event.message, ImageMessage):
+    if isinstance(event.message, ImageMessage) and switch:
         print('Start:..........')
         ext = 'jpg'
         message_content = line_bot_api.get_message_content(event.message.id)
@@ -117,7 +131,6 @@ def handle_message(event):
 
         dist_path = tempfile_path + '.' + ext
         dist_name = os.path.basename(dist_path)
-
         os.rename(tempfile_path, dist_path)
 
         try:
@@ -129,11 +142,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, message)
 
         except:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text='上傳失敗'))
-
-        tf.close
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='上傳失敗'))
 
 @handler.add(JoinEvent)
 def handle_join(event):
