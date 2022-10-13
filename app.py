@@ -95,7 +95,7 @@ def handle_message(event):
 
     elif '才修' in msg:
         txt = '鄭才修為什麼不接電話?\n'
-        txt += '我的心好痛'
+        txt += '我的心好像破了一個洞 :('
         message = TextSendMessage(text=txt)
 
     else:

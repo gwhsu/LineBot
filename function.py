@@ -1,15 +1,13 @@
 import random
 from linebot.models import *
 from imgurpython import ImgurClient
+from pip import main
 from pymongo import MongoClient
 import pandas as pd
 from selenium import webdriver
 import os
 import time
-from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import requests
-import base64
 from config import client_id, client_secret, access_token, refresh_token, album_id
 mongo_client = MongoClient('mongodb+srv://test:123@cluster0-lefn4.mongodb.net/test?retryWrites=true&w=majority')
 
@@ -115,6 +113,7 @@ def img2anime(img_path):
     print(static_tmp_path)
     img_path = static_tmp_path + '/' + img_path
     print(img_path)
+
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--headless")  # 無頭模式
@@ -122,7 +121,6 @@ def img2anime(img_path):
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     chrome = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-
 
     chrome.get("https://animefilter.com/")
 
