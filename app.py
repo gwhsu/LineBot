@@ -104,36 +104,36 @@ def handle_message(event):
     line_bot_api.reply_message(event.reply_token, message)
 
 
-# @handler.add(MessageEvent, message=ImageMessage)
-# def handle_message(event):
-#     if isinstance(event.message, ImageMessage):
-#         print('Start:..........')
-#         ext = 'jpg'
-#         message_content = line_bot_api.get_message_content(event.message.id)
-#         with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-') as tf:
-#             for chunk in message_content.iter_content():
-#                 tf.write(chunk)
-#             tempfile_path = tf.name
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_message(event):
+    if isinstance(event.message, ImageMessage):
+        print('Start:..........')
+        ext = 'jpg'
+        message_content = line_bot_api.get_message_content(event.message.id)
+        with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-') as tf:
+            for chunk in message_content.iter_content():
+                tf.write(chunk)
+            tempfile_path = tf.name
 
-#         dist_path = tempfile_path + '.' + ext
-#         dist_name = os.path.basename(dist_path)
+        dist_path = tempfile_path + '.' + ext
+        dist_name = os.path.basename(dist_path)
 
-#         os.rename(tempfile_path, dist_path)
+        os.rename(tempfile_path, dist_path)
 
-#         try:
-#             path = os.path.join('static', 'tmp', dist_name)
-#             img_uri = img2anime(path)
+        try:
+            path = os.path.join('static', 'tmp', dist_name)
+            img_uri = img2anime(path)
 
-#             print('Message::', img_uri)
-#             message = ImageSendMessage(original_content_url=img_uri, preview_image_url=img_uri)
-#             line_bot_api.reply_message(event.reply_token, message)
+            print('Message::', img_uri)
+            message = ImageSendMessage(original_content_url=img_uri, preview_image_url=img_uri)
+            line_bot_api.reply_message(event.reply_token, message)
 
-#         except:
-#             line_bot_api.reply_message(
-#                 event.reply_token,
-#                 TextSendMessage(text='上傳失敗'))
+        except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text='上傳失敗'))
 
-#         tf.close
+        tf.close
 
 @handler.add(JoinEvent)
 def handle_join(event):

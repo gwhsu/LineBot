@@ -5,6 +5,7 @@ from pip import main
 from pymongo import MongoClient
 import pandas as pd
 from selenium import webdriver
+import cv2
 import os
 import time
 from selenium.webdriver.chrome.options import Options
@@ -123,6 +124,19 @@ def img2anime(img_path):
     chrome = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
     chrome.get("https://animefilter.com/")
+
+    image = cv2.imread(img_path)
+
+    height, width = image.shape[0], image.shape[1]
+    width_new = 300
+    height_new = 300
+
+    if width / height >= width_new / height_new:
+        img_new = cv2.resize(image, (width_new, int(height * width_new / width)))
+    else:
+        img_new = cv2.resize(image, (int(width * height_new / height), height_new))
+    
+    cv2.imwrite(img_path, img_new)
 
     chrome.find_element_by_xpath('//input[@type="file"]').send_keys(img_path)
     alert = chrome.switch_to.alert
