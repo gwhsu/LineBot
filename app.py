@@ -12,6 +12,7 @@ from linebot.models import *
 import tempfile
 from function import *
 import os
+
 # ======setting=====
 game_start = 0
 low = 1
@@ -20,6 +21,7 @@ talk_mode = -1  # -1:非初始 0:初始 1:安靜 2:講話  # no use now
 control_img = 0
 control_game = 0
 control_msg = 0
+
 # -----------------------------
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
@@ -55,16 +57,19 @@ def handle_message(event):
     print('get user id::', user_id)
     profile = line_bot_api.get_profile(user_id)
     print('get profile pass::', profile)
+
     # INFO -------------------------------
     print(profile.display_name)
     print(profile.user_id)
     print(profile.picture_url)
     print(profile.status_message)
     print('join')
+
     # need build a operation list (json)
     if 'Hello' in msg:
         message = 'Hello ' + str(profile.display_name)
         message = TextSendMessage(text=message)
+
     elif '!op' in msg:
         txt = '🔥 ' + 'Hello' + ' 🔥\n'
         txt += '🔥 ' + '抽卡' + ' 🔥\n'
@@ -74,6 +79,7 @@ def handle_message(event):
         txt += '🔥 ' + '!Hulan [str] [int]' + ' 🔥\n'
 
         message = TextSendMessage(text=txt)
+
     elif '占卜 @' in msg:
         message = procast(msg)
 
@@ -88,7 +94,8 @@ def handle_message(event):
         message = StickerSendMessage(package_id='1', sticker_id='8')
 
     elif '才修' in msg:
-        txt = '鄭才修為什麼不接電話?'
+        txt = '鄭才修為什麼不接電話?\n'
+        txt += '我的心好痛'
         message = TextSendMessage(text=txt)
 
     else:
@@ -114,18 +121,17 @@ def handle_message(event):
         os.rename(tempfile_path, dist_path)
 
         try:
-
             path = os.path.join('static', 'tmp', dist_name)
             img_uri = img2anime(path)
 
             print('Message::', img_uri)
             message = ImageSendMessage(original_content_url=img_uri, preview_image_url=img_uri)
             line_bot_api.reply_message(event.reply_token, message)
-        except():
+
+        except:
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text='上傳失敗'))
-
 
 
 @handler.add(JoinEvent)

@@ -19,9 +19,7 @@ def set_msg(msg):
         msg = '你在笑什麼'
         message = TextSendMessage(text=msg)
 
-
     return message
-
 
 def get_pttinfo():
     db = mongo_client.get_database('PTT')
@@ -32,7 +30,6 @@ def get_pttinfo():
         rd_img = x['img']
         title = x['title']
     return url, rd_img, title
-
 
 #return beauty_pttcard
 def ptt_drawcard(url, rd_img, title):
@@ -55,9 +52,7 @@ def ptt_drawcard(url, rd_img, title):
     )
     return message
 
-
 def procast(msg):
-
     db = mongo_client.get_database('linebot')
     records = db.personality
     df = pd.read_csv("data/personality1.csv")
@@ -83,7 +78,6 @@ def procast(msg):
         for x in records.find(myquery):
             message = TextSendMessage(text=x['txt'])
         return message
-
 
 def Hulan(msg):
     print('Start REQUEST')
@@ -116,7 +110,6 @@ def Hulan(msg):
 
     return message
 
-
 def img2anime(img_path):
     static_tmp_path = os.path.join(os.path.dirname(__file__))
     print(static_tmp_path)
@@ -125,6 +118,7 @@ def img2anime(img_path):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--headless")  # 無頭模式
+    chrome_options.add_argument("--start-maximized")  
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     chrome = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
@@ -132,17 +126,15 @@ def img2anime(img_path):
 
     chrome.get("https://animefilter.com/")
 
-    post_image = chrome.find_element_by_xpath('//input[@type="file"]').send_keys(img_path)
+    chrome.find_element_by_xpath('//input[@type="file"]').send_keys(img_path)
     alert = chrome.switch_to.alert
     alert.accept()  # accept alert
     time.sleep(25)
-    image = chrome.find_element_by_xpath('//*[@id="outputEl"]/div/div/img')
 
     with open('output.png', 'wb') as file:
         image = chrome.find_element_by_xpath('//*[@id="outputEl"]/div/div/img')
         image = image.screenshot_as_png
         file.write(image)
-
 
     client = ImgurClient(client_id, client_secret, access_token, refresh_token)
     config = {
