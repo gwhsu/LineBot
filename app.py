@@ -53,7 +53,7 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global game_start, key, low, high, talk_mode
+    global game_start, key, low, high, talk_mode, switch
     msg = event.message.text
 
     user_id = event.source.user_id
