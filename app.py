@@ -98,17 +98,16 @@ def handle_message(event):
         message = StickerSendMessage(package_id='1', sticker_id='8')
 
     elif '才修' in msg:
-        txt = '鄭才修為什麼不接電話?\n'
-        txt += '我的心好像破了一個洞 :('
+        txt = 'Tofu 你好狠的心'
         message = TextSendMessage(text=txt)
 
     elif '!Switch' in msg:
         if(switch):
             switch = False
-            txt = '陽痿 :('
+            txt = '關 :('
         else:
             switch = True
-            txt = '勃起 :)'
+            txt = '開 :)'
 
         message = TextSendMessage(text=txt)
 
