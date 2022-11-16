@@ -11,4 +11,5 @@ line_channel_secret = '305a9df4cb229b9d801eb03d7d81988f'
 
 # DB
 from pymongo import MongoClient
-client_mongo = MongoClient('mongodb+srv://test:123@cluster0-lefn4.mongodb.net/test?retryWrites=true&w=majority')
+mongo_client = MongoClient('mongodb+srv://test:123@cluster0-lefn4.mongodb.net/test?retryWrites=true&w=majority')
+mongo_client_ccsue = MongoClient('mongodb+srv://ccsue:ccsue@cluster0.rxziqvo.mongodb.net/?retryWrites=true&w=majority')

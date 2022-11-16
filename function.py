@@ -7,8 +7,8 @@ from selenium import webdriver
 import cv2
 import os
 import time
-from config import client_id, client_secret, access_token, refresh_token, album_id
-mongo_client = MongoClient('mongodb+srv://test:123@cluster0-lefn4.mongodb.net/test?retryWrites=true&w=majority')
+from config import client_id, client_secret, access_token, refresh_token, album_id, mongo_client, mongo_client_ccsue
+
 
 
 def set_msg(msg):

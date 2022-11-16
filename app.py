@@ -2,7 +2,7 @@ from pickle import APPENDS
 from re import S
 from flask import Flask, request, abort
 
-from config import client_id, client_secret, album_id, access_token, refresh_token, client_mongo, line_channel_access_token, line_channel_secret
+from config import client_id, client_secret, album_id, access_token, refresh_token, mongo_client, line_channel_access_token, line_channel_secret
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -10,19 +10,19 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
-
+from mongodb import *
 import tempfile
 from function import *
 import os
 
 # ======setting=====
-game_start = 0
-low = 1
-high = 100
+game_start = 0  # no use now
+low = 1  # no use now
+high = 100  # no use now
 talk_mode = -1  # -1:非初始 0:初始 1:安靜 2:講話  # no use now
-control_img = 0
-control_game = 0
-control_msg = 0
+control_img = 0  # no use now
+control_game = 0  # no use now
+control_msg = 0  # no use now
 switch = False
 
 # -----------------------------
@@ -112,8 +112,11 @@ def handle_message(event):
             txt = '開 :)'
 
         message = TextSendMessage(text=txt)
-
+    elif '!getlineid' in msg:
+        lineid_mapping(profile.display_name, profile.user_id)
+        message = TextSendMessage(text=profile.user_id)
     else:
+        # set_msg in function.py
         message = set_msg(msg)
 
     line_bot_api.reply_message(event.reply_token, message)
@@ -144,6 +147,7 @@ def handle_message(event):
 
         except:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='上傳失敗'))
+
 
 @handler.add(JoinEvent)
 def handle_join(event):

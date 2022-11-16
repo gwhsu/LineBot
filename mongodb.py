@@ -2,10 +2,10 @@
 
 from pymongo import MongoClient
 from imgurpython import ImgurClient
-from config import client_id, client_secret, access_token, refresh_token
+from config import client_id, client_secret, access_token, refresh_token, mongo_client, mongo_client_ccsue
 from linebot.models import *
 
-mongo_client = MongoClient('mongodb+srv://test:123@cluster0-lefn4.mongodb.net/test?retryWrites=true&w=majority')
+
 client = ImgurClient(client_id, client_secret, access_token, refresh_token)
 
 
@@ -18,3 +18,10 @@ def get_pttinfo():
         rd_img = x['img']
         title = x['title']
     return url, rd_img, title
+
+
+def lineid_mapping(display_name, userid):
+    db = mongo_client.get_database('linebot')
+    record = db.idmap
+    post = {display_name: userid}
+    record.insert_one(post)
