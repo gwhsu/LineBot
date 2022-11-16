@@ -22,6 +22,6 @@ def get_pttinfo():
 
 def lineid_mapping(display_name, userid):
     db = mongo_client.get_database('linebot')
-    record = db.idmap
+    record = db.id_map
     post = {display_name: userid}
     record.insert_one(post)
