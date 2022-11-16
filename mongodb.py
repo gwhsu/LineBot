@@ -5,7 +5,6 @@ from imgurpython import ImgurClient
 from config import client_id, client_secret, access_token, refresh_token, mongo_client, mongo_client_ccsue
 from linebot.models import *
 
-
 client = ImgurClient(client_id, client_secret, access_token, refresh_token)
 
 
@@ -23,5 +22,6 @@ def get_pttinfo():
 def lineid_mapping(display_name, userid):
     db = mongo_client_ccsue.get_database('linebot')
     record = db.id_map
-    post = {display_name: userid}
+    post = {str(display_name): str(userid)}
     record.insert_one(post)
+
