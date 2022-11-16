@@ -16,7 +16,7 @@ def set_msg(msg):
         msg = '你在笑什麼'
         message = TextSendMessage(text=msg)
 
-    return message
+        return message
 
 def get_pttinfo():
     db = mongo_client.get_database('PTT')
@@ -28,7 +28,7 @@ def get_pttinfo():
         title = x['title']
     return url, rd_img, title
 
-#return beauty_pttcard
+# return beauty_pttcard
 def ptt_drawcard(url, rd_img, title):
     title = title[0:12]
     print("urL::", url)
