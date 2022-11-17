@@ -115,6 +115,8 @@ def handle_message(event):
     elif '!getlineid' in msg:
         lineid_mapping(profile.display_name, profile.user_id)
         message = TextSendMessage(text=profile.user_id)
+    elif '!broadcast' in msg:
+        line_bot_api.broadcast(TextSendMessage(text='開始報告'))
     else:
         # set_msg in function.py
         message = set_msg(msg)
