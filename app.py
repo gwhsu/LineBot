@@ -57,11 +57,9 @@ def callback():
 def handle_message(event):
     global game_start, key, low, high, talk_mode, switch
     msg = event.message.text
-
+    
     user_id = event.source.user_id
-    group_id = event.source.group_id
     profile = line_bot_api.get_profile(user_id)
-    summary = line_bot_api.get_group_summary(group_id)
 
     # INFO -------------------------------
     print("----User----")
@@ -70,10 +68,17 @@ def handle_message(event):
     print(profile.picture_url)
     print(profile.status_message)
 
-    print("----Group----")
-    print(summary.group_id)
-    print(summary.group_name)
-    print(summary.picture_url)
+    try:
+        group_id = event.source.group_id
+        summary = line_bot_api.get_group_summary(group_id)
+
+        print("----Group----")
+        print(summary.group_id)
+        print(summary.group_name)
+        print(summary.picture_url)
+
+    except:
+        pass
 
     # need build a operation list (json)
     if 'Hello' in msg:
