@@ -56,6 +56,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global game_start, key, low, high, talk_mode, switch
+    message = None
     msg = event.message.text
     
     user_id = event.source.user_id
@@ -140,18 +141,16 @@ def handle_message(event):
     
     elif '!sendTo' in msg:
         name = msg.split(' ')[1]
-        message = msg.split(' ')[2]
+        text = msg.split(' ')[2]
         userID = nameMapID(name)
         
         if userID:
-            line_bot_api.push_message(userID, TextSendMessage(text=message))
+            line_bot_api.push_message(userID, TextSendMessage(text=text))
         else:    
             message = TextSendMessage(text="The name was not found")
 
-    else:
-        return
-
-    line_bot_api.reply_message(event.reply_token, message)
+    if message:
+        line_bot_api.reply_message(event.reply_token, message)
 
 
 @handler.add(MessageEvent, message=ImageMessage)
