@@ -48,10 +48,11 @@ def check_group_DB(groupID, name):
 
 def nameMapID(name):
     db = mongo_client_ccsue.get_database('linebot')
-    record = db['userID_map']
+    List = [db['userID_map'], db['groupID_map']]
 
-    entry = record.find_one({"name":str(name)})
-    if entry:
-        return entry["ID"]
-        
+    for data in List:
+        entry = data.find_one({"name":str(name)})
+        if entry:
+            return entry["ID"]
+
     return None

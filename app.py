@@ -146,11 +146,11 @@ def handle_message(event):
         if userID:
             line_bot_api.push_message(userID, TextSendMessage(text=message))
         else:    
-            message = TextSendMessage(text="Don't find the name")
+            message = TextSendMessage(text="The name was not found")
 
     else:
         return
-        
+
     line_bot_api.reply_message(event.reply_token, message)
 
 
