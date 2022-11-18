@@ -71,6 +71,7 @@ def handle_message(event):
     try:
         group_id = event.source.group_id
         summary = line_bot_api.get_group_summary(group_id)
+        check_group_DB(summary.group_id, summary.group_name)
 
         print("-----------Group-----------")
         print(summary.group_id)
@@ -81,7 +82,7 @@ def handle_message(event):
         pass
     
     # check user data in DB
-    check_DB(profile.user_id, profile.display_name)
+    check_user_DB(profile.user_id, profile.display_name)
 
     # need build a operation list (json)
     if 'Hello' in msg:
