@@ -148,8 +148,10 @@ def handle_message(event):
         else:    
             message = TextSendMessage(text="Don't find the name")
 
-    if message:
-        line_bot_api.reply_message(event.reply_token, message)
+    else:
+        return
+        
+    line_bot_api.reply_message(event.reply_token, message)
 
 
 @handler.add(MessageEvent, message=ImageMessage)
