@@ -18,10 +18,16 @@ def get_pttinfo():
         title = x['title']
     return url, rd_img, title
 
-
 def lineid_mapping(display_name, userid):
     db = mongo_client_ccsue.get_database('linebot')
     record = db.id_map
     post = {str(display_name): str(userid)}
     record.insert_one(post)
 
+def check_DB(id, name):
+    db = mongo_client_ccsue.get_database('linebot')
+    record = db.id_map
+    if record.find({str(name): str(id)}):
+        return
+    post = {str(name): str(id)}
+    record.insert_one(post)
