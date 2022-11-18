@@ -59,16 +59,21 @@ def handle_message(event):
     msg = event.message.text
 
     user_id = event.source.user_id
-    print('get user id::', user_id)
+    group_id = event.source.group_id
     profile = line_bot_api.get_profile(user_id)
-    print('get profile pass::', profile)
+    summary = line_bot_api.get_group_summary(group_id)
 
     # INFO -------------------------------
+    print("----User----")
     print(profile.display_name)
     print(profile.user_id)
     print(profile.picture_url)
     print(profile.status_message)
-    print('join')
+
+    print("----Group----")
+    print(summary.group_id)
+    print(summary.group_name)
+    print(summary.picture_url)
 
     # need build a operation list (json)
     if 'Hello' in msg:
@@ -110,19 +115,22 @@ def handle_message(event):
         else:
             switch = True
             txt = '開 :)'
-
         message = TextSendMessage(text=txt)
+
     elif '!getlineid' in msg:
         lineid_mapping(profile.display_name, profile.user_id)
         message = TextSendMessage(text=profile.user_id)
+
     elif '!broadcast' in msg:
         message = msg.split(' ')[1]
         line_bot_api.broadcast(TextSendMessage(text=message))
+
     else:
         # set_msg in function.py
         message = set_msg(msg)
 
-    line_bot_api.reply_message(event.reply_token, message)
+    if message:
+        line_bot_api.reply_message(event.reply_token, message)
 
 
 @handler.add(MessageEvent, message=ImageMessage)
