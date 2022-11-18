@@ -103,6 +103,10 @@ def handle_message(event):
     elif '占卜 @' in msg:
         message = procast(msg)
 
+    elif 'CC' in msg:
+        msg = '你在笑什麼'
+        message = TextSendMessage(text=msg)
+
     elif '抽卡' in msg:
         url, rd_img, title = get_pttinfo()
         message = ptt_drawcard(url, rd_img, title)
@@ -133,10 +137,16 @@ def handle_message(event):
     elif '!broadcast' in msg:
         message = msg.split(' ')[1]
         line_bot_api.broadcast(TextSendMessage(text=message))
-
-    else:
-        # set_msg in function.py
-        message = set_msg(msg)
+    
+    elif '!sendTo' in msg:
+        name = msg.split(' ')[1]
+        message = msg.split(' ')[2]
+        userID = nameMapID(name)
+        
+        if userID:
+            line_bot_api.push_message(userID, TextSendMessage(text=message))
+        else:    
+            message = TextSendMessage(text="Don't find the name")
 
     if message:
         line_bot_api.reply_message(event.reply_token, message)

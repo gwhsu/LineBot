@@ -24,24 +24,34 @@ def lineid_mapping(display_name, userid):
     post = {str(display_name): str(userid)}
     record.insert_one(post)
 
-def check_user_DB(userId, name):
+def check_user_DB(userID, name):
     db = mongo_client_ccsue.get_database('linebot')
     record = db['userID_map']
 
     # find exist in DB
-    if record.find_one({str(name): str(userId)}):
+    if record.find_one({"ID":userID}):
         return
 
-    post = {str(name): str(userId)}
+    post = {"name":str(name), "ID":userID}
     record.insert_one(post)
 
-def check_group_DB(groupId, name):
+def check_group_DB(groupID, name):
     db = mongo_client_ccsue.get_database('linebot')
     record = db['groupID_map']
 
     # find exist in DB
-    if record.find_one({str(name): str(groupId)}):
+    if record.find_one({"ID":groupID}):
         return
 
-    post = {str(name): str(groupId)}
+    post = {"name":str(name), "ID":groupID}
     record.insert_one(post)
+
+def nameMapID(name):
+    db = mongo_client_ccsue.get_database('linebot')
+    record = db['userID_map']
+
+    entry = record.find_one({"name":str(name)})
+    if entry:
+        return entry["ID"]
+        
+    return None

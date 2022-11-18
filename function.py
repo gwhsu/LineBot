@@ -10,14 +10,6 @@ import time
 from config import client_id, client_secret, access_token, refresh_token, album_id, mongo_client, mongo_client_ccsue
 
 
-
-def set_msg(msg):
-    if 'CC' in msg:
-        msg = '你在笑什麼'
-        message = TextSendMessage(text=msg)
-
-        return message
-
 def get_pttinfo():
     db = mongo_client.get_database('PTT')
     record = db.beauty_data
