@@ -96,8 +96,10 @@ def handle_message(event):
         txt += '🔥 ' + '幹你娘' + ' 🔥\n'
         txt += '🔥 ' + 'CC' + ' 🔥\n'
         txt += '🔥 ' + '占卜 @[str]' + ' 🔥\n'
-        txt += '🔥 ' + '才修' + ' 🔥\n'
+        txt += '🔥 ' + 'Tofu' + ' 🔥\n'
         txt += '🔥 ' + '!Hulan [str] [int]' + ' 🔥\n'
+        txt += '🔥 ' + '!sendTo [name] [str]' + ' 🔥\n'
+        txt += '🔥 ' + '!broadcast' + ' 🔥\n'
 
         message = TextSendMessage(text=txt)
 
@@ -118,8 +120,8 @@ def handle_message(event):
     elif '幹你娘' in msg:
         message = StickerSendMessage(package_id='1', sticker_id='8')
 
-    elif '才修' in msg:
-        txt = 'Tofu 你好狠的心'
+    elif 'Tofu' in msg:
+        txt = '小心肺變成焦炭~~'
         message = TextSendMessage(text=txt)
 
     elif '!Switch' in msg:
