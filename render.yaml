@@ -1,6 +1,6 @@
 services:
 - type: web
-  name: line-bot-python-flask
+  name: lineBot
   env: python
   repo: https://github.com/gwhsu/Linebot.git
   buildCommand: cd examples/flask-echo;pip install gunicorn -r requirements.txt
