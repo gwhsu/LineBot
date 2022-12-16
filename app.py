@@ -69,10 +69,10 @@ def handle_message(event):
 
     # INFO -------------------------------
     print("-----------User-----------")
-    print(profile.display_name)
-    print(profile.user_id)
-    print(profile.picture_url)
-    print(profile.status_message)
+    print("name : ", profile.display_name)
+    print("userID : ", profile.user_id)
+    print("profile : ", profile.picture_url)
+    print("statusMessage : ", profile.status_message)
 
     try:
         group_id = event.source.group_id
@@ -80,9 +80,9 @@ def handle_message(event):
         check_group_DB(summary.group_id, summary.group_name)
 
         print("-----------Group-----------")
-        print(summary.group_id)
-        print(summary.group_name)
-        print(summary.picture_url)
+        print("groupID : ",summary.group_id)
+        print("groupName : ",summary.group_name)
+        print("groupProfile : ",summary.picture_url)
     except:
         pass
 
@@ -127,8 +127,14 @@ def handle_message(event):
         message = StickerSendMessage(package_id='1', sticker_id='8')
 
     elif 'Tofu' in msg:
-        txt = '小心肺變成焦炭~~'
+        txt = '好想吃豆腐~~'
         message = TextSendMessage(text=txt)
+
+    elif 'TofuEye' in msg:
+        message = ImageSendMessage(
+            original_content_url='https://i.imgur.com/Fmghect.jpg',
+            preview_image_url='https://i.imgur.com/Fmghect.jpg'
+        )
 
     elif '!Switch' in msg:
         if(switch):
