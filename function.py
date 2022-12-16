@@ -10,7 +10,7 @@ import time
 from dotenv import load_dotenv
 
 # get environment variable
-load_dotenv()
+load_dotenv('/etc/secrets/config.env')
 client_id = os.getenv('client_id')
 client_secret = os.getenv('client_secret')
 access_token = os.getenv('access_token')

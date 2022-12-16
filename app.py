@@ -26,7 +26,7 @@ control_msg = 0  # no use now
 switch = False
 
 # get environment variable
-load_dotenv()
+load_dotenv('/etc/secrets/config.env')
 line_channel_access_token = os.getenv('line_channel_access_token')
 line_channel_secret = os.getenv('line_channel_secret')
 
