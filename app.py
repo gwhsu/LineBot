@@ -2,7 +2,6 @@ from pickle import APPENDS
 from re import S
 from flask import Flask, request, abort
 
-from config import client_id, client_secret, album_id, access_token, refresh_token, mongo_client, line_channel_access_token, line_channel_secret
 from linebot import (
     LineBotApi, WebhookHandler
 )
