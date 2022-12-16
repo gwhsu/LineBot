@@ -14,6 +14,7 @@ from mongodb import *
 import tempfile
 from function import *
 import os
+from dotenv import load_dotenv
 
 # ======setting=====
 game_start = 0  # no use now
@@ -24,6 +25,11 @@ control_img = 0  # no use now
 control_game = 0  # no use now
 control_msg = 0  # no use now
 switch = False
+
+# get environment variable
+load_dotenv()
+line_channel_access_token = os.getenv('line_channel_access_token')
+line_channel_secret = os.getenv('line_channel_secret')
 
 # -----------------------------
 app = Flask(__name__)
@@ -78,9 +84,10 @@ def handle_message(event):
         print(summary.group_id)
         print(summary.group_name)
         print(summary.picture_url)
-
     except:
         pass
+
+    print("\n")
     
     # check user data in DB
     check_user_DB(profile.user_id, profile.display_name)

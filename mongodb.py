@@ -2,8 +2,20 @@
 
 from pymongo import MongoClient
 from imgurpython import ImgurClient
-from config import client_id, client_secret, access_token, refresh_token, mongo_client, mongo_client_ccsue
 from linebot.models import *
+from dotenv import load_dotenv
+import os
+
+
+# get environment variable
+load_dotenv()
+client_id = os.getenv('client_id')
+client_secret = os.getenv('client_secret')
+access_token = os.getenv('access_token')
+refresh_token = os.getenv('refresh_token')
+album_id = os.getenv('album_id')
+mongo_client = MongoClient(os.getenv('mongo_client'))
+mongo_client_ccsue = MongoClient(os.getenv('mongo_client_ccsue'))
 
 client = ImgurClient(client_id, client_secret, access_token, refresh_token)
 

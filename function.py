@@ -7,8 +7,16 @@ from selenium import webdriver
 import cv2
 import os
 import time
-from config import client_id, client_secret, access_token, refresh_token, album_id, mongo_client, mongo_client_ccsue
+from dotenv import load_dotenv
 
+# get environment variable
+load_dotenv()
+client_id = os.getenv('client_id')
+client_secret = os.getenv('client_secret')
+access_token = os.getenv('access_token')
+refresh_token = os.getenv('refresh_token')
+album_id = os.getenv('album_id')
+mongo_client = MongoClient(os.getenv('mongo_client'))
 
 def get_pttinfo():
     db = mongo_client.get_database('PTT')
