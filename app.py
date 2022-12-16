@@ -73,6 +73,7 @@ def handle_message(event):
     print("userID : ", profile.user_id)
     print("profile : ", profile.picture_url)
     print("statusMessage : ", profile.status_message)
+    print("msg : ", msg)
 
     try:
         group_id = event.source.group_id
@@ -130,7 +131,7 @@ def handle_message(event):
         txt = '好想吃豆腐~~'
         message = TextSendMessage(text=txt)
 
-    elif 'TofuEye' in msg:
+    elif 'Eye' in msg:
         message = ImageSendMessage(
             original_content_url='https://i.imgur.com/Fmghect.jpg',
             preview_image_url='https://i.imgur.com/Fmghect.jpg'
