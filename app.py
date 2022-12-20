@@ -101,7 +101,7 @@ def handle_message(event):
         '!sendTo' : sendTo
     }
     try:
-        operationFuncs[msg.spilt()[0]](msg)
+        operationFuncs.get(msg.spilt()[0](msg))
     except:
         line_bot_api.reply_message(event.reply_token, 'Got some error')
 
