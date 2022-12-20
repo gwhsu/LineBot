@@ -1,21 +1,12 @@
 # -*- coding:utf-8 -*-
 
 from pymongo import MongoClient
-from imgurpython import ImgurClient
+from extEnv import *
 from linebot.models import *
-from dotenv import load_dotenv
-import os
 
-
-# get environment variable
-load_dotenv('/etc/secrets/config.env')
-client_id = os.getenv('client_id')
-client_secret = os.getenv('client_secret')
-access_token = os.getenv('access_token')
-refresh_token = os.getenv('refresh_token')
-album_id = os.getenv('album_id')
-mongo_client = MongoClient(os.getenv('mongo_client'))
-mongo_client_ccsue = MongoClient(os.getenv('mongo_client_ccsue'))
+# get mongoDB database
+mongo_client = MongoClient(mongo_client)
+mongo_client_ccsue = MongoClient(mongo_client_ccsue)
 
 
 def get_pttinfo():

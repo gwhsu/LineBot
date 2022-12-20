@@ -1,19 +1,14 @@
-from pickle import APPENDS
+import os
+import tempfile
 from re import S
 from flask import Flask, request, abort
-
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 from mongodb import *
-import tempfile
 from function import *
-import os
-from dotenv import load_dotenv
+from extEnv import *
+
 
 # ======setting=====
 game_start = 0  # no use now
@@ -25,12 +20,7 @@ control_game = 0  # no use now
 control_msg = 0  # no use now
 switch = False
 
-# get environment variable
-load_dotenv('/etc/secrets/config.env')
-line_channel_access_token = os.getenv('line_channel_access_token')
-line_channel_secret = os.getenv('line_channel_secret')
-
-# -----------------------------
+# flask
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 
@@ -60,7 +50,6 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global game_start, key, low, high, talk_mode, switch
-    message = None
     msg = event.message.text
     
     user_id = event.source.user_id
@@ -101,7 +90,7 @@ def handle_message(event):
         '!sendTo' : sendTo
     }
     try:
-        operationFuncs.get(msg.spilt()[0](msg))
+        operationFuncs.get(msg.spilt()[0](event, msg))
     except:
         line_bot_api.reply_message(event.reply_token, 'Got some error')
 

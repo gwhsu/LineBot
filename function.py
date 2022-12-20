@@ -1,25 +1,24 @@
 import random
+from mongodb import *
 from linebot.models import *
+from extEnv import *
 from imgurpython import ImgurClient
 from pymongo import MongoClient
 import pandas as pd
 from selenium import webdriver
+from linebot import LineBotApi
 import cv2
 import os
 import time
-from dotenv import load_dotenv
 
-# get environment variable
-load_dotenv('/etc/secrets/config.env')
-client_id = os.getenv('client_id')
-client_secret = os.getenv('client_secret')
-access_token = os.getenv('access_token')
-refresh_token = os.getenv('refresh_token')
-album_id = os.getenv('album_id')
-mongo_client = MongoClient(os.getenv('mongo_client'))
+# get mongoDB database
+mongo_client = MongoClient(mongo_client)
+
+# Channel Access Token
+line_bot_api = LineBotApi(line_channel_access_token)
 
 
-def sendTo(msg):
+def sendTo(event, msg):
     name = msg.split(' ')[1]
     text = msg.split(' ')[2]
     userID = nameMapID(name)
@@ -28,12 +27,15 @@ def sendTo(msg):
         line_bot_api.push_message(userID, TextSendMessage(text=text))
     else:    
         message = TextSendMessage(text="The name was not found")
+        line_bot_api.reply_message(event.reply_token, message)
+
 
 def broadcast(msg):
     text = msg.split(' ')[1]
     line_bot_api.broadcast(TextSendMessage(text=text))
 
-def operationList():
+
+def operationList(event, msg):
     txt = '🔥 ' + 'Hello' + ' 🔥\n'
     txt += '🔥 ' + '抽卡' + ' 🔥\n'
     txt += '🔥 ' + '幹你娘' + ' 🔥\n'
@@ -45,6 +47,7 @@ def operationList():
     txt += '🔥 ' + '!broadcast [str]' + ' 🔥\n'
 
     message = TextSendMessage(text=txt)
+    line_bot_api.reply_message(event.reply_token, message)
 
 def get_pttinfo():
     db = mongo_client.get_database('PTT')
@@ -57,7 +60,7 @@ def get_pttinfo():
     return url, rd_img, title
 
 # return beauty_pttcard
-def ptt_drawcard():
+def ptt_drawcard(event, msg):
     url, rd_img, title = get_pttinfo()
     title = title[0:12]
     print("urL::", url)
@@ -76,9 +79,9 @@ def ptt_drawcard():
             ]
         )
     )
-    return message
+    line_bot_api.reply_message(event.reply_token, message)
 
-def procast(msg):
+def procast(event, msg):
     db = mongo_client.get_database('linebot')
     records = db.personality
     df = pd.read_csv("data/personality1.csv")
@@ -98,14 +101,15 @@ def procast(msg):
         records.insert_one(new_msg)
         message = TextSendMessage(text=txt)
 
-        return message
+        line_bot_api.reply_message(event.reply_token, message)
 
     else:
         for x in records.find(myquery):
             message = TextSendMessage(text=x['txt'])
-        return message
+        line_bot_api.reply_message(event.reply_token, message)
 
-def Hulan(msg):
+
+def Hulan(event, msg):
     print('Start REQUEST')
     msg_ = msg.split(' ')
     id_ = msg_[1]
@@ -133,8 +137,7 @@ def Hulan(msg):
     content = chrome.find_element_by_id("content")
 
     message = TextSendMessage(text=content.text)
-
-    return message
+    line_bot_api.reply_message(event.reply_token, message)
 
 def img2anime(img_path):
     static_tmp_path = os.path.join(os.path.dirname(__file__))
@@ -187,5 +190,5 @@ def img2anime(img_path):
     for image in client.get_album_images(album_id):
         image_title = image.title if image.title else 'Untitled'
     print(image.link)
-
+    
     return image.link
