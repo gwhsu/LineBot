@@ -90,9 +90,10 @@ def handle_message(event):
         '!sendTo' : sendTo
     }
     try:
-        operationFuncs.get(msg.spilt()[0](event, msg))
+        operationFuncs.get(msg.split()[0](event, msg))
     except:
-        line_bot_api.reply_message(event.reply_token, 'Got some error')
+        message = TextSendMessage(text='Got some error')
+        line_bot_api.reply_message(event.reply_token, message)
 
 
 @handler.add(MessageEvent, message=ImageMessage)
