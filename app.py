@@ -90,7 +90,9 @@ def handle_message(event):
         '!sendTo' : sendTo
     }
 
-    operationFuncs.get(msg.split()[0](event, msg))
+    # operationFuncs.get(msg.split()[0](event, msg))
+    print("msg.split()[0] : ", msg.split()[0])
+    operationFuncs[msg.split()[0]](event, msg)
 
 
 
