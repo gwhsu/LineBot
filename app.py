@@ -33,11 +33,10 @@ line_channel_secret = os.getenv('line_channel_secret')
 # -----------------------------
 app = Flask(__name__)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
-# Channel Access Token
-line_bot_api = LineBotApi(line_channel_access_token)
-# Channel Secret
-handler = WebhookHandler(line_channel_secret)
 
+# Channel Access Token & Channel Secret
+line_bot_api = LineBotApi(line_channel_access_token)
+handler = WebhookHandler(line_channel_secret)
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -92,80 +91,19 @@ def handle_message(event):
     # check user data in DB
     check_user_DB(profile.user_id, profile.display_name)
 
-    # need build a operation list (json)
-    if 'Hello' in msg:
-        message = 'Hello ' + str(profile.display_name)
-        message = TextSendMessage(text=message)
-
-    elif '!op' in msg:
-        txt = '🔥 ' + 'Hello' + ' 🔥\n'
-        txt += '🔥 ' + '抽卡' + ' 🔥\n'
-        txt += '🔥 ' + '幹你娘' + ' 🔥\n'
-        txt += '🔥 ' + 'CC' + ' 🔥\n'
-        txt += '🔥 ' + '占卜 @[str]' + ' 🔥\n'
-        txt += '🔥 ' + 'Tofu' + ' 🔥\n'
-        txt += '🔥 ' + '!Hulan [str] [int]' + ' 🔥\n'
-        txt += '🔥 ' + '!sendTo [name] [str]' + ' 🔥\n'
-        txt += '🔥 ' + '!broadcast' + ' 🔥\n'
-
-        message = TextSendMessage(text=txt)
-
-    elif '占卜 @' in msg:
-        message = procast(msg)
-
-    elif 'CC' in msg:
-        msg = '你在笑什麼'
-        message = TextSendMessage(text=msg)
-
-    elif '抽卡' in msg:
-        url, rd_img, title = get_pttinfo()
-        message = ptt_drawcard(url, rd_img, title)
-
-    elif '!Hulan' in msg:
-        message = Hulan(msg)
-
-    elif '幹你娘' in msg:
-        message = StickerSendMessage(package_id='1', sticker_id='8')
-
-    elif 'Tofu' in msg:
-        txt = '好想吃豆腐~~'
-        message = TextSendMessage(text=txt)
-
-    elif 'Eye' in msg:
-        message = ImageSendMessage(
-            original_content_url='https://i.imgur.com/Fmghect.jpg',
-            preview_image_url='https://i.imgur.com/Fmghect.jpg'
-        )
-
-    elif '!Switch' in msg:
-        if(switch):
-            switch = False
-            txt = '關 :('
-        else:
-            switch = True
-            txt = '開 :)'
-        message = TextSendMessage(text=txt)
-
-    elif '!getlineid' in msg:
-        lineid_mapping(profile.display_name, profile.user_id)
-        message = TextSendMessage(text=profile.user_id)
-
-    elif '!broadcast' in msg:
-        message = msg.split(' ')[1]
-        line_bot_api.broadcast(TextSendMessage(text=message))
-    
-    elif '!sendTo' in msg:
-        name = msg.split(' ')[1]
-        text = msg.split(' ')[2]
-        userID = nameMapID(name)
-        
-        if userID:
-            line_bot_api.push_message(userID, TextSendMessage(text=text))
-        else:    
-            message = TextSendMessage(text="The name was not found")
-
-    if message:
-        line_bot_api.reply_message(event.reply_token, message)
+    # operation list
+    operationFuncs = {
+        '!op' : operationList,
+        '占卜' : procast,
+        '抽卡' : ptt_drawcard, 
+        '!Hulan' : Hulan,
+        '!broadcast' : broadcast,
+        '!sendTo' : sendTo
+    }
+    try:
+        operationFuncs[msg.spilt()[0]](msg)
+    except:
+        line_bot_api.reply_message(event.reply_token, 'Got some error')
 
 
 @handler.add(MessageEvent, message=ImageMessage)

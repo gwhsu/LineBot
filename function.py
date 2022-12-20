@@ -18,6 +18,34 @@ refresh_token = os.getenv('refresh_token')
 album_id = os.getenv('album_id')
 mongo_client = MongoClient(os.getenv('mongo_client'))
 
+
+def sendTo(msg):
+    name = msg.split(' ')[1]
+    text = msg.split(' ')[2]
+    userID = nameMapID(name)
+    
+    if userID:
+        line_bot_api.push_message(userID, TextSendMessage(text=text))
+    else:    
+        message = TextSendMessage(text="The name was not found")
+
+def broadcast(msg):
+    text = msg.split(' ')[1]
+    line_bot_api.broadcast(TextSendMessage(text=text))
+
+def operationList():
+    txt = '🔥 ' + 'Hello' + ' 🔥\n'
+    txt += '🔥 ' + '抽卡' + ' 🔥\n'
+    txt += '🔥 ' + '幹你娘' + ' 🔥\n'
+    txt += '🔥 ' + 'CC' + ' 🔥\n'
+    txt += '🔥 ' + '占卜 @[str]' + ' 🔥\n'
+    txt += '🔥 ' + 'Tofu' + ' 🔥\n'
+    txt += '🔥 ' + '!Hulan [str] [int]' + ' 🔥\n'
+    txt += '🔥 ' + '!sendTo [name] [str]' + ' 🔥\n'
+    txt += '🔥 ' + '!broadcast [str]' + ' 🔥\n'
+
+    message = TextSendMessage(text=txt)
+
 def get_pttinfo():
     db = mongo_client.get_database('PTT')
     record = db.beauty_data
@@ -29,7 +57,8 @@ def get_pttinfo():
     return url, rd_img, title
 
 # return beauty_pttcard
-def ptt_drawcard(url, rd_img, title):
+def ptt_drawcard():
+    url, rd_img, title = get_pttinfo()
     title = title[0:12]
     print("urL::", url)
     message = TemplateSendMessage(
