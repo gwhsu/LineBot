@@ -29,11 +29,9 @@ def sendTo(event, msg):
         message = TextSendMessage(text="The name was not found")
         line_bot_api.reply_message(event.reply_token, message)
 
-
 def broadcast(msg):
     text = msg.split(' ')[1]
     line_bot_api.broadcast(TextSendMessage(text=text))
-
 
 def operationList(event, msg):
     txt = '🔥 ' + 'Hello' + ' 🔥\n'
