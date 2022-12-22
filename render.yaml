@@ -3,7 +3,7 @@ services:
   name: CCSUE
   env: python
   repo: https://github.com/gwhsu/Linebot.git
-  buildCommand: pip install gunicorn -r requirements.txt; sudo chmod +x /opt/render/project/src/chromedriver
-  startCommand: gunicorn app:app
+  buildCommand: pip install gunicorn -r requirements.txt
+  startCommand: sudo chmod +x /opt/render/project/src/chromedriver;gunicorn app:app
   plan: free
   autoDeploy: true
