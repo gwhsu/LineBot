@@ -18,6 +18,24 @@ mongo_client = MongoClient(mongo_client)
 line_bot_api = LineBotApi(line_channel_access_token)
 
 
+def meme(event, msg):
+    # static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
+    # chrome_options = webdriver.ChromeOptions()
+    # chrome_options.add_argument("--headless")  # 無頭模式
+    # chrome_options.add_argument("--start-maximized")  
+    # chrome_options.add_argument("--disable-dev-shm-usage")
+    # chrome_options.add_argument("--no-sandbox")
+    # chrome = webdriver.Chrome(executable_path='', chrome_options=chrome_options)
+
+    # chrome.get("https://animefilter.com/")
+
+    print(__file__)
+    print(os.path.dirname(__file__))
+    print(os.path.abspath(__file__))
+    print(os.path.abspath(os.path.dirname(__file__)))
+    print(os.path.dirname(os.path.abspath(__file__)))
+
+
 def sendTo(event, msg):
     name = msg.split(' ')[1]
     text = msg.split(' ')[2]
