@@ -10,6 +10,7 @@ from linebot import LineBotApi
 import cv2
 import os
 import time
+import json
 
 # get mongoDB database
 mongo_client = MongoClient(mongo_client)
@@ -19,21 +20,19 @@ line_bot_api = LineBotApi(line_channel_access_token)
 
 
 def meme(event, msg):
-    # static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
-    # chrome_options = webdriver.ChromeOptions()
-    # chrome_options.add_argument("--headless")  # 無頭模式
-    # chrome_options.add_argument("--start-maximized")  
-    # chrome_options.add_argument("--disable-dev-shm-usage")
-    # chrome_options.add_argument("--no-sandbox")
-    # chrome = webdriver.Chrome(executable_path='', chrome_options=chrome_options)
+    driverPath = os.path.join(os.path.dirname(__file__), 'chromedriver.exe')
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")  # 無頭模式
+    chrome_options.add_argument("--start-maximized")  
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome = webdriver.Chrome(executable_path=driverPath, chrome_options=chrome_options)
 
-    # chrome.get("https://animefilter.com/")
+    chrome.get("https://memes.tw/wtf/api")
 
-    print(__file__)
-    print(os.path.dirname(__file__))
-    print(os.path.abspath(__file__))
-    print(os.path.abspath(os.path.dirname(__file__)))
-    print(os.path.dirname(os.path.abspath(__file__)))
+    content = chrome.find_element_by_tag_name('pre').text
+    parsed_json = json.loads(content)
+    print(parsed_json[0]['src'])
 
 
 def sendTo(event, msg):
