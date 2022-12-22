@@ -87,7 +87,8 @@ def handle_message(event):
         '抽卡' : ptt_drawcard, 
         '!Hulan' : Hulan,
         '!broadcast' : broadcast,
-        '!sendTo' : sendTo
+        '!sendTo' : sendTo,
+        '!meme' : meme,
     }
 
     # Do operation
