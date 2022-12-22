@@ -20,13 +20,13 @@ line_bot_api = LineBotApi(line_channel_access_token)
 
 
 def meme(event, msg):
-    driverPath = os.path.join(os.path.dirname(__file__), 'chromedriver.exe')
+    # driverPath = os.path.join(os.path.dirname(__file__), 'chromedriver.exe')
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")  # 無頭模式
     chrome_options.add_argument("--start-maximized")  
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
-    chrome = webdriver.Chrome(executable_path=driverPath, chrome_options=chrome_options)
+    chrome = webdriver.Chrome(executable_path='chromedriver', chrome_options=chrome_options)
 
     chrome.get("https://memes.tw/wtf/api")
 
